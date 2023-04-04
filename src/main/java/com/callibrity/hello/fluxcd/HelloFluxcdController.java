@@ -10,7 +10,7 @@ public class HelloFluxcdController {
 
     @GetMapping
     public String hello() {
-        return "Hello, Flux!";
+        return "Hello, Flux CD!";
     }
 
 }
