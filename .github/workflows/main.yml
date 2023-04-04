@@ -1,0 +1,42 @@
+name: Continuous Integration
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Continuous Integration Build
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Cache Maven repository
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Build and Analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: mvn -B -Drevision=$GITHUB_RUN_NUMBER verify
+      - name: Build Image
+        run: mvn -DskipTests -Drevision=$GITHUB_RUN_NUMBER -Pnative spring-boot:build-image
+      - name: Extract Image Name
+        run: |
+          echo "IMAGE_NAME=$(mvn help:evaluate -Drevision=$GITHUB_RUN_NUMBER -Dexpression=spring-boot.build-image.imageName -q -DforceStdout)" >> $GITHUB_ENV
+      - name: Push Image
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: |
+          echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
+          docker push $IMAGE_NAME
+          docker logout
