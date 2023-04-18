@@ -33,10 +33,7 @@ jobs:
         run: |
           echo "IMAGE_NAME=$(mvn help:evaluate -Drevision=$GITHUB_RUN_NUMBER -Dexpression=spring-boot.build-image.imageName -q -DforceStdout)" >> $GITHUB_ENV
       - name: Push Image
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
         run: |
-          echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
           docker push $IMAGE_NAME
           docker logout

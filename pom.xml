@@ -15,7 +15,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<revision>0-SNAPSHOT</revision>
-		<spring-boot.build-image.imageName>docker.io/jwcarman/${project.artifactId}:${project.version}</spring-boot.build-image.imageName>
+		<spring-boot.build-image.imageName>ghcr.io/jwcarman/${project.artifactId}:${project.version}</spring-boot.build-image.imageName>
 	</properties>
 	<dependencies>
 		<dependency>
