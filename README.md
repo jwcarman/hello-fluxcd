@@ -29,7 +29,7 @@ Now you're ready to begin the tutorial!
 First, we need to start a local Kubernetes cluster using Minikube:
 
 ```shell
-minikube start
+minikube start --addons metrics-server
 ```
 
 Once complete, you should see something like this:
@@ -46,9 +46,10 @@ Once complete, you should see something like this:
     ▪ Booting up control plane ...
     ▪ Configuring RBAC rules ...
 🔗  Configuring bridge CNI (Container Networking Interface) ...
+    ▪ Using image registry.k8s.io/metrics-server/metrics-server:v0.6.3
     ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
 🔎  Verifying Kubernetes components...
-🌟  Enabled addons: default-storageclass, storage-provisioner
+🌟  Enabled addons: storage-provisioner, metrics-server, default-storageclass
 🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
 ```
 
