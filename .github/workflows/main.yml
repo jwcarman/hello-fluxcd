@@ -27,11 +27,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn -B -Drevision=$GITHUB_RUN_NUMBER verify
-      - name: Build Image
-        run: mvn -DskipTests -Drevision=$GITHUB_RUN_NUMBER -Pnative spring-boot:build-image
-      - name: Extract Image Name
+      - name: Extract Version
         run: |
-          echo "IMAGE_NAME=$(mvn help:evaluate -Drevision=$GITHUB_RUN_NUMBER -Dexpression=spring-boot.build-image.imageName -q -DforceStdout)" >> $GITHUB_ENV
+          echo "APP_VERSION=$(mvn help:evaluate -Drevision=$GITHUB_RUN_NUMBER -Dexpression=version -q -DforceStdout)" >> $GITHUB_ENV
+          echo "IMAGE_NAME=ghcr.io/$GITHUB_REPOSITORY:$APP_VERSION" >> $GITHUB_ENV
+      - name: Build Image
+        run: mvn -DskipTests -Drevision=$GITHUB_RUN_NUMBER -Dspring-boot.build-image.imageName=$IMAGE_NAME spring-boot:build-image
       - name: Push Image
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
