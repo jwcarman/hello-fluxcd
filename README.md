@@ -149,7 +149,7 @@ You should see something like this:
 
 ```shell
 NAME        	LATEST IMAGE                       	READY	MESSAGE
-hello-fluxcd	ghcr.io/jwcarman/hello-fluxcd:1.0.6	True 	Latest image tag for 'ghcr.io/jwcarman/hello-fluxcd' resolved to 1.0.6
+hello-fluxcd	ghcr.io/jwcarman/hello-fluxcd:1.0.12	True 	Latest image tag for 'ghcr.io/jwcarman/hello-fluxcd' resolved to 1.0.12
 ```
 
 ### Configure Automatic Image Updates
@@ -191,6 +191,12 @@ cluster repository with the latest image tag for `hello-fluxcd`:
 
 ```shell
 kubectl get deployment/hello-fluxcd -oyaml | grep 'image:'
+```
+
+You should see something like this:
+
+```shell
+      - image: ghcr.io/jwcarman/hello-fluxcd:1.0.12
 ```
 
 
