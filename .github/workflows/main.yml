@@ -31,7 +31,7 @@ jobs:
         run: |
           echo "IMAGE_NAME=ghcr.io/$GITHUB_REPOSITORY:$(mvn help:evaluate -Drevision=$GITHUB_RUN_NUMBER -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
       - name: Build Image
-        run: mvn -DskipTests -Drevision=$GITHUB_RUN_NUMBER -Dspring-boot.build-image.imageName=$IMAGE_NAME spring-boot:build-image
+        run: mvn -DskipTests -Drevision=$GITHUB_RUN_NUMBER -Dspring-boot.build-image.imageName=$IMAGE_NAME -Pnative spring-boot:build-image
       - name: Push Image
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
