@@ -1,9 +1,72 @@
 # FluxCD Demo Application
 
-This repo contains a guided tutorial for [FluxCD](https://fluxcd.io/) using a Spring Boot application.
+This repo contains a guided tutorial for [FluxCD](https://fluxcd.io/) using a Spring Boot application loosely based
+upon the [Automatic image updates to Git](https://fluxcd.io/flux/guides/image-update/) tutorial from FluxCD.
+
+## Setup
+
+You will need to install the following tools to follow along with this tutorial:
+
+* [kubectl](https://kubernetes.io/docs/tasks/tools/)
+* [flux](https://fluxcd.io/docs/installation/)
+* [minikube](https://minikube.sigs.k8s.io/docs/start/)
+
+In order to follow along with this tutorial, you will need to generate a GitHub personal access token with all `repo` 
+permissions checked. Once you have generated your token, you will need to set the following environment variables:
+
+```shell
+export GITHUB_TOKEN=<your-token>
+export GITHUB_USER=<your-username>
+```
+
+Now you're ready to begin the tutorial!
 
 ## Tutorial
 
+
+### Starting Minikube
+
+First, we need to start a local Kubernetes cluster using Minikube:
+
+```shell
+minikube start
+```
+
+Once complete, you should see something like this:
+
+```shell
+😄  minikube v1.30.1 on Darwin 13.3.1 (arm64)
+✨  Automatically selected the docker driver
+📌  Using Docker Desktop driver with root privileges
+👍  Starting control plane node minikube in cluster minikube
+🚜  Pulling base image ...
+🔥  Creating docker container (CPUs=2, Memory=16300MB) ...
+🐳  Preparing Kubernetes v1.26.3 on Docker 23.0.2 ...
+    ▪ Generating certificates and keys ...
+    ▪ Booting up control plane ...
+    ▪ Configuring RBAC rules ...
+🔗  Configuring bridge CNI (Container Networking Interface) ...
+    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+🔎  Verifying Kubernetes components...
+🌟  Enabled addons: default-storageclass, storage-provisioner
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+```
+
+### Checking K8S Cluster with FluxCD 
+
+Next, we need to check that our cluster is ready for FluxCD:
+
+```shell
+flux check --pre
+```
+
+If successful, you should see something like this:
+
+```shell
+► checking prerequisites
+✔ Kubernetes 1.26.3 >=1.20.6-0
+✔ prerequisites checks passed
+```
 
 ### Bootstrapping FluxCD
 
